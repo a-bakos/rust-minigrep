@@ -22,6 +22,10 @@ struct Config {
 impl Config {
     // &Vec<String> = &[String]
     fn new(args: &Vec<String>) -> Self {
+        if args.len() < 3 {
+            panic!("Not enough arguments!");
+        }
+
         // Easiest though somewhat inefficient way, .clone()
         Self {
             query: args[1].clone(),
