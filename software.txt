@@ -1,0 +1,5 @@
+Software engineering is a systematic engineering approach to software development.[1][2][3]
+
+A software engineer is a person who applies the principles of software engineering to design, develop, maintain, test, and evaluate computer software. The term programmer is sometimes used as a synonym, but may also lack connotations of engineering education or skills.
+
+Engineering techniques are used to inform[clarification needed] the software development process[1][4] which involves the definition, implementation, assessment, measurement, management, change, and improvement of the software life cycle process itself. It heavily uses software configuration management[1][4] which is about systematically controlling changes to the configuration, and maintaining the integrity and traceability of the configuration and code throughout the system life cycle. Modern processes use software versioning.
