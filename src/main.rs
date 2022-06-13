@@ -1,4 +1,5 @@
 use std::env;
+use std::error::Error;
 use std::fs;
 use std::process;
 
@@ -13,14 +14,24 @@ fn main() {
     println!("Searching for: {:?}", config.query);
     println!("In file: {:?}", config.filename);
 
-    run(config);
+    if let Err(e) = run(config) {
+        println!("Application error: {}", e);
+        process::exit(1);
+    }
 }
 
-fn run(config: Config) {
-    let contents =
-        fs::read_to_string(config.filename).expect("Something went wrong reading the file!");
+// Box<dyn Error> => trait object
+// it means the function will return a type that implements the
+// Error trait, but we don't have to specify what particular
+// type the return value will be. This gives us flexibility to
+// return error values that may be of different types in
+// different error cases.
+fn run(config: Config) -> Result<(), Box<dyn Error>> {
+    let contents = fs::read_to_string(config.filename)?;
 
     println!("With text:\n{}", contents);
+
+    Ok(())
 }
 
 struct Config {
