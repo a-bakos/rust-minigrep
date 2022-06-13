@@ -14,7 +14,8 @@ fn main() {
     println!("With text:\n{}", contents);
 }
 
-fn parse_config(args: &[String]) -> (&str, &str) {
+// &Vec<String> = &[String]
+fn parse_config(args: &Vec<String>) -> (&str, &str) {
     let query = &args[1];
     let filename = &args[2];
 
