@@ -4,7 +4,7 @@ use std::fs;
 fn main() {
     let args: Vec<String> = env::args().collect();
 
-    let config: Config = Config::new(&args);
+    let config = Config::new(&args);
 
     println!("Searching for: {:?}", config.query);
     println!("In file: {:?}", config.filename);
@@ -21,15 +21,15 @@ struct Config {
 }
 impl Config {
     // &Vec<String> = &[String]
-    fn new(args: &Vec<String>) -> Self {
+    fn new(args: &Vec<String>) -> Result<Self, &'static str> {
         if args.len() < 3 {
-            panic!("Not enough arguments!");
+            return Err("Not enough arguments!");
         }
 
         // Easiest though somewhat inefficient way, .clone()
-        Self {
+        Ok(Self {
             query: args[1].clone(),
             filename: args[2].clone(),
-        }
+        })
     }
 }
