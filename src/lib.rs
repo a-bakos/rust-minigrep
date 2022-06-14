@@ -31,3 +31,42 @@ impl Config {
         })
     }
 }
+
+#[cfg(test)]
+mod test {
+    use super::*;
+
+    #[test]
+    fn one_result() {
+        let query = "duct";
+        let contents = "\
+	Rust:
+	safe, fast, productive.
+	Pick three.";
+
+        assert_eq!(vec!["safe, fast, productive."], search(query, contents));
+    }
+}
+
+/**
+ * We need an explicit lifetime of 'a defined in the signature and used with
+ * the contents argument and the return value. The lifetime parameters
+ * specify which argument lifetime is connected to the lifetime of the return
+ * value.
+ * We indicate that the returned vector should contain string slices that
+ * reference slices of the argument contents - rather than query.
+ * In other words, we tell Rust, that the date returned by the search function
+ * will live as long as the data passed into the function in the contents
+ * argument.
+ * The data referenced by a slice needs to be valid for the reference to be
+ * valid. If the compiler assumes we're making string slices of query rather
+ * than contents, it will do its safety checking incorrectly.
+ * Rust can't possibly know which of the two arguments we need, so we need to
+ * tell it. Because contents is the argument that contains all of our text and
+ * we want to return the parts of that text that match, contents is the
+ * argument that should be connected to the return value using the lifetime
+ * syntax.
+ */
+pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
+    vec![]
+}
