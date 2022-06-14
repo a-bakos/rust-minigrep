@@ -1,3 +1,4 @@
+use std::env;
 use std::error::Error;
 use std::fs;
 
@@ -11,7 +12,13 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
     let contents = fs::read_to_string(config.filename)?;
     // println!("With text:\n{}", contents);
 
-    for line in search(&config.query, &contents) {
+    let results = if config.case_sensitive {
+        search(&config.query, &contents)
+    } else {
+        search_case_insensitive(&config.query, &contents)
+    };
+
+    for line in results {
         println!("{}", line);
     }
 
@@ -21,7 +28,9 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
 pub struct Config {
     pub query: String,
     pub filename: String,
+    pub case_sensitive: bool,
 }
+
 impl Config {
     // &Vec<String> = &[String]
     pub fn new(args: &Vec<String>) -> Result<Self, &'static str> {
@@ -29,10 +38,13 @@ impl Config {
             return Err("Not enough arguments!");
         }
 
+        let case_sensitive = env::var("CASE_INSENSITIVE").is_err();
+
         // Easiest though somewhat inefficient way, .clone()
         Ok(Self {
             query: args[1].clone(),
             filename: args[2].clone(),
+            case_sensitive,
         })
     }
 }
