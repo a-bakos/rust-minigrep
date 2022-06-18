@@ -7,4 +7,4 @@ to search for. Run the program like so: `cargo run searchstring filename.txt`
 
 Run:
 
-`CASE_INSENSITIVE=1 cargo run modern software.txt > output.txt`
+`CASE_INSENSITIVE=1 cargo run Modern software.txt > output.txt`

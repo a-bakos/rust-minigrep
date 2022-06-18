@@ -33,17 +33,25 @@ pub struct Config {
 
 impl Config {
     // &Vec<String> = &[String]
-    pub fn new(args: &Vec<String>) -> Result<Self, &'static str> {
-        if args.len() < 3 {
-            return Err("Not enough arguments!");
-        }
+    pub fn new(mut args: std::env::Args) -> Result<Self, &'static str> {
+        args.next();
+
+        let query = match args.next() {
+            Some(arg) => arg,
+            None => return Err("Didn't get a query string"),
+        };
+
+        let filename = match args.next() {
+            Some(arg) => arg,
+            None => return Err("Didn't get a file name"),
+        };
 
         let case_sensitive = env::var("CASE_INSENSITIVE").is_err();
 
         // Easiest though somewhat inefficient way, .clone()
         Ok(Self {
-            query: args[1].clone(),
-            filename: args[2].clone(),
+            query,
+            filename,
             case_sensitive,
         })
     }
