@@ -34,6 +34,8 @@ pub struct Config {
 impl Config {
     // &Vec<String> = &[String]
     pub fn new(mut args: std::env::Args) -> Result<Self, &'static str> {
+        // The first value in the return of env::args is the name of the
+        // program, so we want to skip that
         args.next();
 
         let query = match args.next() {
