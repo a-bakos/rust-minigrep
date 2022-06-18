@@ -98,7 +98,7 @@ Trust me.";
  * value.
  * We indicate that the returned vector should contain string slices that
  * reference slices of the argument contents - rather than query.
- * In other words, we tell Rust, that the date returned by the search function
+ * In other words, we tell Rust, that the data returned by the search function
  * will live as long as the data passed into the function in the contents
  * argument.
  * The data referenced by a slice needs to be valid for the reference to be
@@ -111,6 +111,13 @@ Trust me.";
  * syntax.
  */
 pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
+    contents
+        .lines()
+        .filter(|line| line.contains(query))
+        .collect()
+
+    // The old way for the above code, aka using no iterators
+    /*
     let mut matches: Vec<&str> = Vec::new();
     for line in contents.lines() {
         if line.contains(query) {
@@ -118,9 +125,17 @@ pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
         }
     }
     matches
+    */
 }
 
 pub fn search_case_insensitive<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
+    contents
+        .lines()
+        .filter(|line| line.to_lowercase().contains(&query.to_lowercase()))
+        .collect()
+
+    // The old way for the above code, aka using no iterators
+    /*
     let mut matches: Vec<&str> = Vec::new();
     let query = query.to_lowercase();
     for line in contents.lines() {
@@ -129,4 +144,5 @@ pub fn search_case_insensitive<'a>(query: &str, contents: &'a str) -> Vec<&'a st
         }
     }
     matches
+    */
 }
